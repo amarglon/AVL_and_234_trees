@@ -41,6 +41,9 @@ public class Proj04_AVL_student implements Proj04_Dictionary {
 	}
 	
 	private void rebalanceTree(Proj04_BSTNode node) {
+		//method updates heights of all nodes in the path
+		//of the recently inserted node
+		//The method also manages rotations based on heights
 		// TODO rotations
 		ArrayList<Proj04_BSTNode> traversal = pathFinder(node);
 		Proj04_BSTNode parentNode;
@@ -51,6 +54,22 @@ public class Proj04_AVL_student implements Proj04_Dictionary {
 			} else {
 				parentNode = traversal.get(currentNode - 1);
 			}
+		    switch (rotationManager(traversal.get(currentNode))) {
+	        case -2:
+	          if (rotationManager(traversal.get(currentNode).left) < 1) {
+	            balanceLL(traversal.get(currentNode), parentNode); // Perform LL rotation
+	          }
+	          else {
+	            balanceLR(traversal.get(currentNode), parentNode); // Perform LR rotation
+	          }
+	          break;
+	        case +2:
+	          if (rotationManager(traversal.get(currentNode).right) > -1) {
+	            balanceRR(traversal.get(currentNode), parentNode); // Perform RR rotation
+	          }
+	          else {
+	            balanceRL(traversal.get(currentNode), parentNode); // Perform RL rotation
+	          }
 		}
 
 	}
@@ -69,6 +88,17 @@ public class Proj04_AVL_student implements Proj04_Dictionary {
 			}
 		}
 		return traversal;
+	}
+	
+	private int rotationManager(Proj04_BSTNode node) {
+		int caseManager;
+		if (node.right == null)
+			caseManager = 0 - node.height;
+		else if (node.left == null)
+			caseManager = node.height;
+		else
+			caseManager = (node.right).height - (node.left).height;
+		return caseManager;
 	}
 	
 	private void updateHeights(Proj04_BSTNode node) {
