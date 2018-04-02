@@ -4,7 +4,7 @@ import java.util.ArrayList;
 public class Proj04_234_student implements Proj04_Dictionary {
 	//TODO insert, traversals, transfers and rotations
 	public Proj04_234_student () {
-		root = null;
+		root = new Proj04_234Node();
 	}
 	
 	@Override
@@ -48,10 +48,9 @@ public class Proj04_234_student implements Proj04_Dictionary {
 		return null;
 	}
 	
-	//Might have trouble with root still being null? simple fix by making root = null into root.key1 = null
 	@Override
 	public void insert(int key, String value) throws IllegalArgumentException {
-		if (root == null) {
+		if (root.val1 == null) {
 			root.key1 = key;
 			root.val1 = value;
 		}
@@ -63,13 +62,45 @@ public class Proj04_234_student implements Proj04_Dictionary {
 		while (traversal != null) {
 			leaf = traversal;
 			traversal = getChild(key, traversal);
-			insertHelper(key, value, leaf, null);
 		}
+		insertHelper(key, value, leaf, null);
 	}
 	private void insertHelper(int key, String value, Proj04_234Node leaf, Proj04_234Node right) {
 		ArrayList<Proj04_234Node> path = pathFinder(key);
+		for (int i = path.size() - 1; i >= 0; i--) {
+			if (leaf.numKeys < 3) {
+				insertIntoLeaf(key, value, leaf, right);
+				break;
+			} else {
+				Proj04_234Node newNode = new Proj04_234Node();
+				Proj04_234Node middle = separate(key, value, leaf, newNode);
+				if (leaf == root) {
+					root = middle;
+					root.childA = leaf;
+					root.childB = newNode;
+					break;
+				} else {
+					//TODO ??
+					key = middle.key1;
+					value = middle.val1;
+					right = newNode;
+					leaf = path.get(i - 1); 
+				}
+			}
+		} 
+	}	
+
+	private void insertIntoLeaf(int key, String value, Proj04_234Node leaf, Proj04_234Node right) {
+		
+		
 	}
-	
+	private Proj04_234Node separate(int key, String value, Proj04_234Node leaf, Proj04_234Node newNode) {
+		newNode.key1 = leaf.key3;
+		newNode.val1 = leaf.val3;
+		
+		return null;
+	}
+
 	private ArrayList<Proj04_234Node> pathFinder(int key) {
 		Proj04_234Node presentNode = root;
 		ArrayList<Proj04_234Node> traversal = new ArrayList<>();
