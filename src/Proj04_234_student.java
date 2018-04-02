@@ -1,9 +1,8 @@
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class Proj04_234_student implements Proj04_Dictionary {
 	//TODO insert, traversals, transfers and rotations
-	//TAKE THIS OUT 
-	//http://www.cs.armstrong.edu/liang/intro11e/html/Tree24WithLineNumber.html?
 	public Proj04_234_student () {
 		root = null;
 	}
@@ -49,10 +48,42 @@ public class Proj04_234_student implements Proj04_Dictionary {
 		return null;
 	}
 	
+	//Might have trouble with root still being null? simple fix by making root = null into root.key1 = null
 	@Override
-	public void insert(int key, String value) {
-		// TODO Auto-generated method stub
-
+	public void insert(int key, String value) throws IllegalArgumentException {
+		if (root == null) {
+			root.key1 = key;
+			root.val1 = value;
+		}
+		if (search(key) != null) {
+			throw new IllegalArgumentException("Attempt to insert a duplicate key '" + key + "'");
+		}
+		Proj04_234Node leaf = null;
+		Proj04_234Node traversal = root;
+		while (traversal != null) {
+			leaf = traversal;
+			traversal = getChild(key, traversal);
+			insertHelper(key, value, leaf, null);
+		}
+	}
+	private void insertHelper(int key, String value, Proj04_234Node leaf, Proj04_234Node right) {
+		ArrayList<Proj04_234Node> path = pathFinder(key);
+	}
+	
+	private ArrayList<Proj04_234Node> pathFinder(int key) {
+		Proj04_234Node presentNode = root;
+		ArrayList<Proj04_234Node> traversal = new ArrayList<>();
+		/*while (node != null) {
+			traversal.add(presentNode);
+			if (node.key < presentNode.key) {
+				presentNode = presentNode.left;
+			} else if (node.key > presentNode.key) {
+				presentNode = presentNode.right;
+			} else {
+				break;
+			}
+		}*/
+		return traversal;
 	}
 
 	@Override
@@ -76,6 +107,16 @@ public class Proj04_234_student implements Proj04_Dictionary {
 	}
 
 	@Override
+	public void genDebugDot(String filename) {
+		try {
+			Proj04_GenDotFile.gen(root, filename);
+		} catch (IOException e) {
+			e.printStackTrace();
+			System.out.println("genDebugDot(): File handling error Proj04_BST_student class");
+		}
+	}
+
+	@Override
 	public void printInOrder() {
 		// TODO Auto-generated method stub
 
@@ -93,14 +134,5 @@ public class Proj04_234_student implements Proj04_Dictionary {
 
 	}
 
-	@Override
-	public void genDebugDot(String filename) {
-		try {
-			Proj04_GenDotFile.gen(root, filename);
-		} catch (IOException e) {
-			e.printStackTrace();
-			System.out.println("genDebugDot(): File handling error Proj04_BST_student class");
-		}
-	}
 	private Proj04_234Node root;
 }
