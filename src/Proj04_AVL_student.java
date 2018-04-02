@@ -57,7 +57,7 @@ public class Proj04_AVL_student implements Proj04_Dictionary {
 
 	@Override
 	public void delete(int key) {
-		// TODO rebalance and edit this
+		// TODO edit this
 		// Locate the node to be deleted and also locate its parent node
 		Proj04_BSTNode parentNode = null;
 		Proj04_BSTNode presentNode = root;
@@ -116,7 +116,6 @@ public class Proj04_AVL_student implements Proj04_Dictionary {
 		// method updates heights of all nodes in the path
 		// of the recently inserted node
 		// The method also manages rotations based on heights
-		// TODO rotations
 		ArrayList<Proj04_BSTNode> traversal = pathFinder(node);
 		Proj04_BSTNode parentNode;
 		for (int currentNode = traversal.size() - 1; currentNode > -1; currentNode--) {
