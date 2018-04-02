@@ -1,0 +1,13 @@
+cd C:/Users/Amelia/eclipse-workspace/completedAssignment5.zip_expanded/cs335_assg5_complete
+
+//echo "# assignment6-assignment6ameliamargloninaralysne" >> README.md
+//git init
+git add .  //README.md
+git commit -m "first commit"
+//git remote add origin https://github.com/CSC-335-Spring-18/assignment6-assignment6ameliamargloninaralysne.git
+git push -u origin master
+
+git status --- check for changes
+rm -rf .git remove git  
+
+cd C:/Users/Amelia/eclipse-workspace/Proj04_345
