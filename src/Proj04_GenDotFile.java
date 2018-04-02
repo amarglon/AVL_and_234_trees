@@ -39,6 +39,35 @@ public class Proj04_GenDotFile {
 		//close file
 	}
 	
+	public static void gen(Proj04_234Node root, String filename)
+			throws IOException {
+			
+			String digraph = "digraph {";
+			String endDigraph = "}";
+			//traverse Proj03 tree
+			//print instructions in dot syntax
+			//output to filename (which already includes the .dot extension 
+			File dotFile = new File(filename);
+			PrintWriter writer = new PrintWriter(dotFile);
+			
+			writer.println(digraph);
+			draw234Recursively(writer, root);
+			writer.println(endDigraph);
+			
+			writer.close();
+			
+			//print start of method name, ie tree {
+			//call methods to add nodes and connections
+			//end with closing bracket }
+			
+			
+			
+			//close file
+		}
+	public static void draw234Recursively(PrintWriter writer, Proj04_234Node parent) {
+		
+	}
+	
 	public static void drawRecursively(PrintWriter writer, Proj04_BSTNode parent) {
 		
 		int left;

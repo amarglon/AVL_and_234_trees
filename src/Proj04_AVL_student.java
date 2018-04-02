@@ -1,46 +1,192 @@
+import java.io.IOException;
 
 public class Proj04_AVL_student implements Proj04_Dictionary {
-
+	
+	public Proj04_AVL_student() {
+		
+		root = null;
+	
+	}
 	@Override
-	public void insert(int key, String value) {
-		// TODO Auto-generated method stub
-
+	public void insert(int key, String value) throws IllegalArgumentException {
+		// TODO update heights and call balance tree helper as necessary
+		//Throws IllegalArgumentException if the key already exists in the tree
+		if (root == null) {
+			root = new Proj04_BSTNode(key, value);
+		} else {
+			if (search(key) != null) { // check if it exists in table
+				throw new IllegalArgumentException("Attempt to insert a duplicate key '" + key + "'");
+			} else { // create new node, recursively call helper method until new node is placed
+				Proj04_BSTNode newNode = new Proj04_BSTNode(key, value);
+				insertHelper(newNode, root);
+				//updateheights method
+				//rebalance method
+			}
+		}
+	}
+	
+	private void insertHelper(Proj04_BSTNode key, Proj04_BSTNode parent) {
+		if (key.key < parent.key) {
+			if (parent.left == null) {
+				parent.left = key;
+			} else {
+				insertHelper(key, parent.left);
+			}
+		} else {
+			if (parent.right == null) {
+				parent.right = key;
+			} else {
+				insertHelper(key, parent.right);
+			}
+		}
 	}
 
 	@Override
 	public String search(int key) {
-		// TODO Auto-generated method stub
+		Proj04_BSTNode presentNode = root;
+		while (presentNode != null) {
+			if (key < presentNode.key) {
+				presentNode = presentNode.left;
+			} else if (key > presentNode.key) {
+				presentNode = presentNode.right;
+			} else {
+				return presentNode.value;
+			}
+		}
 		return null;
 	}
 
 	@Override
 	public void delete(int key) {
-		// TODO Auto-generated method stub
+		// Locate the node to be deleted and also locate its parent node
+		Proj04_BSTNode parentNode = null;
+		Proj04_BSTNode presentNode = root;
+	    while (presentNode != null) {
+	      if (key < presentNode.key) {
+	        parentNode = presentNode;
+	        presentNode = presentNode.left;
+	      }
+	      else if (key > presentNode.key) {
+	        parentNode = presentNode;
+	        presentNode = presentNode.right;
+	      }
+	      else
+	        break; // Element is in the tree pointed at by current
+	    }
 
+	    if (presentNode == null)
+	      //return false; // Element is not in the tree
+
+	    // Case 1: current has no left child
+	    if (presentNode.left == null) {
+	      // Connect the parent with the right child of the current node
+	      if (parentNode == null) {
+	        root = presentNode.right;
+	      }
+	      else {
+	        if (key < parentNode.key)
+	          parentNode.left = presentNode.right;
+	        else
+	          parentNode.right = presentNode.right;
+	      }
+	    }
+	    else {
+	      // Case 2: The current node has a left child
+	      // Locate the rightmost node in the left subtree of
+	      // the current node and also its parent
+	      Proj04_BSTNode parentOfRightMost = presentNode;
+	      Proj04_BSTNode rightMost = presentNode.left;
+
+	      while (rightMost.right != null) {
+	        parentOfRightMost = rightMost;
+	        rightMost = rightMost.right; // Keep going to the right
+	      }
+
+	      // Replace the element in current by the element in rightMost
+	      presentNode.key = rightMost.key;
+
+	      // Eliminate rightmost node
+	      if (parentOfRightMost.right == rightMost)
+	        parentOfRightMost.right = rightMost.left;
+	      else
+	        // Special case: parentOfRightMost == current
+	        parentOfRightMost.left = rightMost.left;     
+	    }
 	}
 
 	@Override
 	public void printInOrder() {
-		// TODO Auto-generated method stub
-
+		// left root right
+		//recursion
+		if (root == null) {
+			return;
+		} else {
+			inOrderHelper(root);
+		}
 	}
-
+	
+	private void inOrderHelper(Proj04_BSTNode node) {
+		if (node == null) {
+			return;
+		} else {
+			inOrderHelper(node.left);
+			System.out.print(" " + node.key + ":'" + node.value + "'");
+			inOrderHelper(node.right);
+		}	
+	}
+	
 	@Override
 	public void printPreOrder() {
-		// TODO Auto-generated method stub
-
+		// root left right
+		if (root == null) {
+			return;
+		} else {
+			preOrderHelper(root);
+		}
+	}
+	
+	private void preOrderHelper(Proj04_BSTNode node ) {
+		if(node == null) {
+			return;
+		} else {
+			System.out.print(" " + node.key + ":'" + node.value + "'");
+			preOrderHelper(node.left);
+			preOrderHelper(node.right);	
+		}
 	}
 
 	@Override
 	public void printPostOrder() {
-		// TODO Auto-generated method stub
+		// left right root
+		// recursion
+		if(root == null) {
+			return;
+		} else {
+			postOrderHelper(root);
+		}
+	}
 
+	private void postOrderHelper(Proj04_BSTNode node) {
+		if(node == null) {
+			return;
+		} else {
+			postOrderHelper(node.left);
+			postOrderHelper(node.right);
+			System.out.print(" " + node.key + ":'" + node.value + "'");
+		}
+		
 	}
 
 	@Override
 	public void genDebugDot(String filename) {
-		// TODO Auto-generated method stub
-
+		try {
+			Proj04_GenDotFile.gen(root, filename);
+		} catch (IOException e) {
+			e.printStackTrace();
+			System.out.println("genDebugDot(): File handling error Proj04_BST_student class");
+		}
 	}
+	
+	private Proj04_BSTNode root;
 
 }
