@@ -57,12 +57,11 @@ public class Proj04_AVL_student implements Proj04_Dictionary {
 
 	@Override
 	public void delete(int key) {
-		// TODO edit this
-		// Locate the node to be deleted and also locate its parent node
+		
 		Proj04_BSTNode parentNode = null;
 		Proj04_BSTNode presentNode = root;
 
-		if (search(key) != null) { // make sure node is in tree
+		if (search(key) != null) { 
 			while (presentNode != null) {
 				if (key < presentNode.key) {
 					parentNode = presentNode;

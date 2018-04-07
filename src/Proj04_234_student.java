@@ -2,7 +2,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 public class Proj04_234_student implements Proj04_Dictionary {
-	//TODO insert, traversals, transfers and rotations
+	
 	public Proj04_234_student () {
 		root = new Proj04_234Node();
 	}
@@ -80,7 +80,7 @@ public class Proj04_234_student implements Proj04_Dictionary {
 					root.childB = newNode;
 					break;
 				} else {
-					//TODO ??
+					
 					key = middle.key1;
 					value = middle.val1;
 					right = newNode;
@@ -149,19 +149,19 @@ public class Proj04_234_student implements Proj04_Dictionary {
 
 	@Override
 	public void printInOrder() {
-		// TODO Auto-generated method stub
+		
 
 	}
 
 	@Override
 	public void printPreOrder() {
-		// TODO Auto-generated method stub
+		
 
 	}
 
 	@Override
 	public void printPostOrder() {
-		// TODO Auto-generated method stub
+		
 
 	}
 
